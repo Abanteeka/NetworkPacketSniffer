@@ -2,10 +2,10 @@ import socket
 import struct
 import textwrap
 
-TAB_1 = '\t - '
-TAB_2 = '\t\t - '
-TAB_3 = '\t\t\t - '
-TAB_4 = '\t\t\t\t - '
+TAB_1 = '\t [+] '
+TAB_2 = '\t\t [-] '
+TAB_3 = '\t\t\t [-] '
+TAB_4 = '\t\t\t\t [-] '
 
 DATA_TAB_1 = '\t '
 DATA_TAB_2 = '\t\t '
@@ -20,8 +20,8 @@ def main():
     while True:
         raw_data, addr = conn.recvfrom(65536)
         dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data)
-        print("\nEthernet Frame: ")
-        print("Destination: {}, Source: {}, Protocol: {}".format(dest_mac, src_mac, eth_proto))
+        print("\n[*] Ethernet Frame: ")
+        print("[*] Destination: {}, Source: {}, Protocol: {}".format(dest_mac, src_mac, eth_proto))
 
         # 8 for IPv4
         if eth_proto == 8:
@@ -40,7 +40,7 @@ def main():
             elif proto == 6:
                 (src_port, dest_port, sequence, acknowledgement, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn,
                  flag_fin, data) = tcp_segment(data)
-                print("TCP Segment:")
+                print("[*] TCP Segment:")
                 print(TAB_2 + "Source Port: {}, Destination port: {}".format(src_port, dest_port))
                 print(TAB_2 + "Sequence : {}, Acknowledgment: {},".format(sequence, acknowledgement))
                 print(TAB_2 + "Flags:")
@@ -62,7 +62,7 @@ def main():
                 print(TAB_1 + "Data :")
                 print(format_multi_line(DATA_TAB_2, data))
         else:
-            print('Data :')
+            print('[*] Data :')
             print(format_multi_line(DATA_TAB_1, data))
 
 
